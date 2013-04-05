@@ -1,4 +1,4 @@
-
+<!-- No longer in use -->
 <%@ page import="org.grails.plugin.odata.Table" %>
 <!doctype html>
 <html>
