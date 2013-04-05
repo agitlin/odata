@@ -44,7 +44,7 @@ This should add two sample tables to your application. Use the supplied Table an
 						]
 
     // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
+    def issueManagement = [ system: "JIRA", url: "https://github.com/agitlin/odata/issues" ]
 
     // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/agitlin/odata/" ]
