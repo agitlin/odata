@@ -1,0 +1,36 @@
+<plugin name='odata' version='0.2' grailsVersion='2.1 &gt; *'>
+  <author>Alex Gitlin, Artem Portnoy</author>
+  <authorEmail>alex.gitlin@gmail.com</authorEmail>
+  <title>Odata Plugin</title>
+  <description>Add table views of oData - based domain objects. The UI comes from Twitter Bootstrap
+</description>
+  <documentation>http://grails.org/plugin/odata</documentation>
+  <type>OdataGrailsPlugin</type>
+  <resources>
+    <resource>spring.resources</resource>
+    <resource>org.grails.plugin.odata.ColumnController</resource>
+    <resource>org.grails.plugin.odata.TableController</resource>
+    <resource>org.grails.plugin.odata.Column</resource>
+    <resource>org.grails.plugin.odata.Table</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='Codehaus' url='http://repository.codehaus.org/' />
+    <repository name='http://grails.org/plugins' url='http://grails.org/plugins' />
+  </repositories>
+  <dependencies />
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='rest' version='0.7' />
+    </compile>
+    <build>
+      <plugin group='org.grails.plugins' name='release' version='2.0.3' />
+      <plugin group='org.grails.plugins' name='rest' version='0.7' />
+      <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
+    </build>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>
