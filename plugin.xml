@@ -36,9 +36,9 @@ This should add two sample tables to your application. Use the supplied Table an
       <plugin group='org.grails.plugins' name='rest' version='0.7' />
     </compile>
     <build>
-      <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
       <plugin group='org.grails.plugins' name='release' version='2.0.3' />
       <plugin group='org.grails.plugins' name='rest' version='0.7' />
+      <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
     </build>
   </plugins>
   <runtimePluginRequirements />
