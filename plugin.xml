@@ -1,12 +1,22 @@
-<plugin name='odata' version='0.2' grailsVersion='2.1 &gt; *'>
+<plugin name='odata' version='0.3' grailsVersion='2.1 &gt; *'>
   <author>Alex Gitlin, Artem Portnoy</author>
-  <authorEmail>alex.gitlin@gmail.com</authorEmail>
-  <title>Odata Plugin</title>
-  <description>Add table views of oData - based domain objects. The UI comes from Twitter Bootstrap
+  <authorEmail>speakers.meet@gmail.com</authorEmail>
+  <title>Open Data Viewer</title>
+  <description>Grails Plugin for building Open Data Protocol - based table views on top of Twitter Bootstrap. 
+
+Installation: 
+1) install kickstart-with-bootstrap plugin
+2) run kickstart script
+3) install odata plugin
+4) (optional) add the following line to the init closure of your BootStrap.groovy: 
+org.grails.plugin.odata.Table.addSamples()
+This should add two sample tables to your application. Use the supplied Table and Column controllers to change the views.
+
 </description>
-  <documentation>http://grails.org/plugin/odata</documentation>
+  <documentation>https://github.com/agitlin/odata/</documentation>
   <type>OdataGrailsPlugin</type>
   <resources>
+    <resource>ODataResources</resource>
     <resource>spring.resources</resource>
     <resource>org.grails.plugin.odata.ColumnController</resource>
     <resource>org.grails.plugin.odata.TableController</resource>
@@ -26,9 +36,9 @@
       <plugin group='org.grails.plugins' name='rest' version='0.7' />
     </compile>
     <build>
+      <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
       <plugin group='org.grails.plugins' name='release' version='2.0.3' />
       <plugin group='org.grails.plugins' name='rest' version='0.7' />
-      <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
     </build>
   </plugins>
   <runtimePluginRequirements />
