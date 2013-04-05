@@ -40,7 +40,7 @@ This should add two sample tables to your application. Use the supplied Table an
 
     // Any additional developers beyond the author specified above.
     def developers = [ [ name: "Alex Gitlin", email: "speakers.meet@gmail.com" ],
-						[ name: "Artem Portnoy", email: "speakers.meet@gmail.com" ]
+						[ name: "Artem Portnoy", email: "artem.b.portnoy@gmail.com" ]
 						]
 
     // Location of the plugin's issue tracker.
