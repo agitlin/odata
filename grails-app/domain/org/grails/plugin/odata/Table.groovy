@@ -1,8 +1,8 @@
 package org.grails.plugin.odata
 
-import groovyx.net.http.HTTPBuilder
-import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
+import static groovyx.net.http.Method.GET
+import groovyx.net.http.HTTPBuilder
 
 /**
  * EntityDescriptor
@@ -14,24 +14,19 @@ class Table {
 
 	static hasMany = [columns:Column]
 
-	static mapping = {
-	}
-
-	static constraints = {
-	}
-
 	/*
 	 * Methods of the Domain Class
 	 */
 	@Override	// Override toString for a nicer / more descriptive UI
-	public String toString() {
-		return "${name}";
+	String toString() {
+		name
 	}
 
 	def getColumnsSorted() {
 		return columns.sort{it.index}
 	}
-	def static addSamples() {
+
+	static void addSamples() {
 		addNew("Movies", "http://odata.netflix.com/Catalog/Titles", [
 			[name: "Name"],
 			[name:"Synopsis"],
@@ -46,7 +41,7 @@ class Table {
 		])
 	}
 	
-	def static addNew(tableName, sourceUri, columns) {
+	static void addNew(tableName, sourceUri, columns) {
 		Table table = new Table(name: tableName, uri: sourceUri)
 		columns.eachWithIndex { map, i ->
 			Column col = new Column(index: i, name: map.name, title: map.label?map.label:map.name)
