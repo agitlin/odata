@@ -2,7 +2,10 @@
   <author>Alex Gitlin, Artem Portnoy</author>
   <authorEmail>speakers.meet@gmail.com</authorEmail>
   <title>Open Data Viewer</title>
-  <description>Grails Plugin for building Open Data Protocol - based table views on top of Twitter Bootstrap. 
+  <description>Grails Plugin for building Open Data Protocol-based table views on top of Twitter Bootstrap.
+Kickstart-with-bootstrap plugin installation is a prerequisite for installing his plugin. 
+
+This plugin lets you create metadata-driven table views of OData sources. See the sample Netflix data table that comes with the code.  
 
 Installation: 
 1) install kickstart-with-bootstrap plugin
@@ -37,8 +40,8 @@ This should add two sample tables to your application. Use the supplied Table an
     </compile>
     <build>
       <plugin group='org.grails.plugins' name='release' version='2.0.3' />
-      <plugin group='org.grails.plugins' name='rest' version='0.7' />
       <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
+      <plugin group='org.grails.plugins' name='rest' version='0.7' />
     </build>
   </plugins>
   <runtimePluginRequirements />
