@@ -15,7 +15,10 @@ class OdataGrailsPlugin {
     def author = "Alex Gitlin, Artem Portnoy"
     def authorEmail = "speakers.meet@gmail.com"
     def description = '''\
-Grails Plugin for building Open Data Protocol - based table views on top of Twitter Bootstrap. 
+Grails Plugin for building Open Data Protocol-based table views on top of Twitter Bootstrap.
+Kickstart-with-bootstrap plugin installation is a prerequisite for installing his plugin. 
+
+This plugin lets you create metadata-driven table views of OData sources. See the sample Netflix data table that comes with the code.  
 
 Installation: 
 1) install kickstart-with-bootstrap plugin
