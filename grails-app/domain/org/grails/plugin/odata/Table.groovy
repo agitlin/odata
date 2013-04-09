@@ -27,17 +27,18 @@ class Table {
 	}
 
 	static void addSamples() {
-		addNew("Movies", "http://odata.netflix.com/Catalog/Titles", [
-			[name: "Name"],
-			[name:"Synopsis"],
-			[name:"AverageRating", label:"Average Rating"]
-		])
+		
 		addNew("Customers", "http://services.odata.org/Northwind/Northwind.svc/Customers", [
 			[name:"ContactName", label:"Contact Name"],
 			[name:"Address"],
 			[name:"City"],
 			[name:"Phone"],
 			[name:"CompanyName", label:"Company Name"]
+		])
+		addNew("Employees", "http://services.odata.org/Northwind/Northwind.svc/Employees", [
+			[name:"FirstName"],
+			[name:"LastName"],
+			[name:"Extension"],
 		])
 	}
 	
