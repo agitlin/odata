@@ -10,8 +10,9 @@ import groovyx.net.http.HTTPBuilder
  */
 class Table {
 	String name
-	String uri
-
+	static belongsTo = [source:Source]
+	String entityType
+	
 	static hasMany = [columns:Column]
 
 	/*
@@ -27,33 +28,36 @@ class Table {
 	}
 
 	static void addSamples() {
-		
-		addNew("Customers", "http://services.odata.org/Northwind/Northwind.svc/Customers", [
+		Source source = new Source(name: "Northwind", uri: "http://services.odata.org/Northwind/Northwind.svc")
+		addNew("Customers", source, "Customer", [
 			[name:"ContactName", label:"Contact Name"],
 			[name:"Address"],
 			[name:"City"],
 			[name:"Phone"],
 			[name:"CompanyName", label:"Company Name"]
 		])
-		addNew("Employees", "http://services.odata.org/Northwind/Northwind.svc/Employees", [
+		addNew("Employees", source, "Employee", [
 			[name:"FirstName"],
 			[name:"LastName"],
 			[name:"Extension"],
 		])
+		source.save()
 	}
 	
-	static void addNew(tableName, sourceUri, columns) {
-		Table table = new Table(name: tableName, uri: sourceUri)
+	static void addNew(tableName, source, entityType, columns) {
+		tableName=tableName?tableName:entityType
+		Table table = new Table(name: tableName, entityType: entityType)
 		columns.eachWithIndex { map, i ->
 			Column col = new Column(index: i, name: map.name, title: map.label?map.label:map.name)
 			col.save()
 			table.addToColumns(col)
 		}
 		table.save()
+		source.addToTables(table)
 	}
 	
 	def getData(max, offset, orderBy, filterQuery) {
-		def http = new HTTPBuilder(this.uri)
+		def http = new HTTPBuilder(source.makeEntityUri(entityType))
 		http.request( GET, JSON ) {
 			// construct comma separated list of column names for select
 			def propsSorted = getColumnsSorted()
@@ -76,9 +80,6 @@ class Table {
 			
 			// response handler for a success response code:
 			response.success = { resp, json ->
-				println resp.statusLine
-
-				// parse the JSON response object:
 				return json.d
 			}
 
