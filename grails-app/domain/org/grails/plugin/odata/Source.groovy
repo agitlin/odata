@@ -5,7 +5,7 @@ import static groovyx.net.http.Method.GET
 import groovyx.net.http.HTTPBuilder
 
 /**
- * Source
+ * Open Data Protocol Source
  * A domain class describes the data object and it's mapping to the database
  */
 class Source {
