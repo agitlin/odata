@@ -6,5 +6,9 @@ modules = {
 		resource url: [ dir: 'js' , file:'DT_bootstrap.js' ,plugin:'odata']
 		resource url: [ dir: 'css' , file:'DT_bootstrap.css' ,plugin:'odata']
 	}
-	println " || Adding OData Resources ...........||"
+	
+	'table_editor' {
+		resource url: [ dir: 'js' , file:'odataViewEditor.js' ,plugin:'odata']
+		
+	}
 }

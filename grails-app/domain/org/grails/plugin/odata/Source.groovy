@@ -27,7 +27,7 @@ class Source {
 	 * Returns names of Entity Types available in this source 
 	 * @return
 	 */
-	List<String> getEntityTypes() {
+	def getEntityTypes() {
 		def http = new HTTPBuilder(uri + "/\$metadata")
 		http.request( GET, XML ) {
 			// response handler for a success response code:
@@ -35,7 +35,7 @@ class Source {
 				def entityTypeNodes = xml.'**'.findAll { it.name() == 'EntityType' }
 				def entityTypes = []
 				entityTypeNodes.each {
-					entityTypes << it.@Name
+					entityTypes << it.@Name.toString()
 				}
 				return entityTypes
 			}
@@ -60,7 +60,7 @@ class Source {
 				def entityTypeNode = xml.'**'.find { it.name() == 'EntityType' && it.@Name == entityType }
 				def props = []
 				entityTypeNode.Property.list().each {
-					props << new EntityProperty(name: it.@Name, type: it.@Type)
+					props <<  it.@Name.toString()//new EntityProperty(name: it.@Name, type: it.@Type)
 				}
 				return props
 			}
@@ -77,7 +77,7 @@ class Source {
 	 */
 	@Override	// Override toString for a nicer / more descriptive UI
 	public String toString() {
-		return "${name} - ${uri}";
+		name
 	}
 	
 	public class EntityProperty {
