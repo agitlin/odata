@@ -19,7 +19,9 @@
 			
 				<g:sortableColumn property="name" title="${message(code: 'table.name.label', default: 'Name')}" />
 			
-				<g:sortableColumn property="uri" title="${message(code: 'table.uri.label', default: 'Uri')}" />
+				<g:sortableColumn property="source" title="${message(code: 'table.source.label', default: 'Source')}" />
+			
+				<g:sortableColumn property="entityType" title="${message(code: 'table.entityType.label', default: 'Entity Type')}" />
 			
 			</tr>
 		</thead>
@@ -29,7 +31,9 @@
 			
 				<td><g:link action="show" id="${tableInstance.id}">${fieldValue(bean: tableInstance, field: "name")}</g:link></td>
 			
-				<td>${fieldValue(bean: tableInstance, field: "uri")}</td>
+				<td>${fieldValue(bean: tableInstance, field: "source")}</td>
+			
+				<td>${fieldValue(bean: tableInstance, field: "entityType")}</td>
 			
 			</tr>
 		</g:each>
