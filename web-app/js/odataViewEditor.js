@@ -9,7 +9,7 @@ $(document).ready(function() {
 		    items.push('<option value="' + val + '">' + val + '</option>');
 		  });
 		 
-		  $('#entityTypes').prepend("<select name='entityType' id='entitySelector' class='many-to-one'>"+items.join('')+"</select>");
+		  $('#entitySelector').append(items.join(''));
 		});
 	$("#entitySelector").change( function () {
 		var eType=$("#entitySelector").val();

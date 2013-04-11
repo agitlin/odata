@@ -12,7 +12,9 @@
 			<div class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'entityType', 'error')} ">
 				<label for="entityType" class="control-label"><g:message code="table.entityType.label" default="Entity Type" /></label>
 				<div class="controls" >
-					<span id="entityTypes" />
+					<select name='entityType' id='entitySelector' class='many-to-one'>
+					<option>Please choose...</option>
+					</select>
 					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'entityType', 'error')}</span>
 				</div>
 			</div>
