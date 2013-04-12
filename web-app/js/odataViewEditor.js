@@ -18,10 +18,12 @@ $(document).ready(function() {
 			  var items = [];
 				 
 			  $.each(data, function( key,val) {
-			    items.push('<li class="ui-state-default" ><input type="hidden" name="prop" value="'+val+'"/>'  + val + '</li>');
+			    items.push('<li class="ui-state-default" ><input type="hidden" name="prop" value="'+val+'"/>'  + val + '<div class="icon-remove deleter" id='+val+'></div></li>');
 			  });
-			 
 			  $('#propertyNames').prepend("<ul id='sortable' >"+items.join('')+"</ul>");
+			  $(".deleter").click(function (e) {
+				  alert (" Deleting "+ $(this).attr("id") + " parent "+ $(this).parent().remove());
+			  });
 			  $(function() {
 					$( "#sortable" ).sortable({
 						revert: true

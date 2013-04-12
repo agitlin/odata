@@ -12,6 +12,7 @@
 	<style>
 	#sortable {  margin: 0; padding: 0; list-style-type: none; }
 	#sortable li { margin: 5px; padding: 5px; width: 200px; }
+	.deleter {cursor: pointer;*cursor: hand;float:right}
 	</style>
 </head>
 

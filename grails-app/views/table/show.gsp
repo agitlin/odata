@@ -16,6 +16,15 @@
 					bProcessing: true,
 					bServerSide: true,
 					sAjaxSource: '${request.contextPath + '/table/getItems?table=' + table}' ,
+					"fnServerData": function ( sSource, aoData, fnCallback ) {
+						$.ajax( {
+							"dataType": 'json', 
+							"type": "POST", 
+							"url": sSource, 
+							"data": aoData, 
+							"success": fnCallback
+						} );
+					},
 					aLengthMenu: [[20, 50, 100, 500, -1], [20, 50, 100, 500, "All"]],
 					iDisplayLength: 50,
 					"aaSorting": [[ 0, "asc" ]],
