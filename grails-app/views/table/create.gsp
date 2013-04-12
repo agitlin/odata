@@ -8,7 +8,11 @@
 	<g:set var="entityName" value="${message(code: 'table.label', default: 'Table')}" />
 	<title><g:message code="default.create.label" args="[entityName]" /></title>
 	<r:require module="table_editor"/>
-	
+	<jqui:resources/>
+	<style>
+	#sortable {  margin: 0; padding: 0; list-style-type: none; }
+	#sortable li { margin: 5px; padding: 5px; width: 200px; }
+	</style>
 </head>
 
 <body>

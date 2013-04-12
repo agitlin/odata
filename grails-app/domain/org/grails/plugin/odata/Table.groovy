@@ -29,6 +29,8 @@ class Table {
 
 	static void addSamples() {
 		Source source = new Source(name: "Northwind", uri: "http://services.odata.org/Northwind/Northwind.svc")
+		new Source(name: "Stack Exchange", uri: "http://data.stackexchange.com/stackoverflow/atom").save()
+		
 		addNew("Customers", source, "Customer", [
 			[name:"ContactName", label:"Contact Name"],
 			[name:"Address"],
@@ -73,10 +75,11 @@ class Table {
 				$skip:offset, 
 				$select:select.toString(), 
 				$inlinecount: 'allpages', 
-				$format:'json', 
+				//$format:'json', 
 				$orderby:orderBy,
 				$filter:filterQuery
 			]
+			headers.'Accept' = 'application/json'
 			
 			// response handler for a success response code:
 			response.success = { resp, json ->

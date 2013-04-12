@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 class TableController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	def show() {
 		def table = params.id? Table.get(params.id): Table.first()
 		[headers:table.getColumnsSorted(),table:params.id]
@@ -25,15 +25,15 @@ class TableController {
 		def sortDir = params.sSortDir_0?.equalsIgnoreCase('asc') ? 'asc' : 'desc'
 
 		def data = table.getData(params.iDisplayLength, params.iDisplayStart, "${sortProperty} ${sortDir}", getFilterQuery(columns))
-		
+
 		dataToRender.iTotalRecords = data.__count
 		dataToRender.iTotalDisplayRecords = dataToRender.iTotalRecords
 
 		dataToRender.aaData=data.results
-		
+
 		render dataToRender as JSON
 	}
-	
+
 	def getFilterQuery(columns) {
 		StringBuilder filter = new StringBuilder()
 		columns.eachWithIndex { descr, i ->
@@ -46,98 +46,137 @@ class TableController {
 		}
 		return filter.toString()
 	}
-    def index() {
-        redirect(action: "list", params: params)
-    }
+	def index() {
+		redirect(action: "list", params: params)
+	}
 
-    def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [tableInstanceList: Table.list(params), tableInstanceTotal: Table.count()]
-    }
+	def list() {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		[tableInstanceList: Table.list(params), tableInstanceTotal: Table.count()]
+	}
 
-    def create() {
-        [tableInstance: new Table(params)]
-    }
+	def create() {
+		[tableInstance: new Table(params)]
+	}
 
-    def save() {
-        def tableInstance = new Table(params)
-        if (!tableInstance.save(flush: true)) {
-            render(view: "create", model: [tableInstance: tableInstance])
-            return
-        }
+	static humanize(s) {
+		s.replaceAll(/([A-Z][a-z]*)/, '$1 ').trim()
+	}
+	def save() {
+		def tableInstance = new Table(params)
+		tableInstance.name=tableInstance.name?:humanize(tableInstance.entityType)
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'table.label', default: 'Table'), tableInstance.id])
-        redirect(action: "show", id: tableInstance.id)
-    }
+		if (!tableInstance.save(flush: true)) {
+			render(view: "create", model: [tableInstance: tableInstance])
+			return
+		}
+		params.prop.eachWithIndex {p, i ->
+			Column col = new Column(index: i, name: p, title: humanize(p))
+			col.save(flush:true)
+			tableInstance.addToColumns(col)
+		}
+		if (!tableInstance.save(flush: true)) {
+			render(view: "create", model: [tableInstance: tableInstance])
+			return
+		}
 
-    def show_old() {
-        def tableInstance = Table.get(params.id)
-        if (!tableInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'table.label', default: 'Table'), params.id])
-            redirect(action: "list")
-            return
-        }
+		flash.message = message(code: 'default.created.message', args: [
+			message(code: 'table.label', default: 'Table'),
+			tableInstance.id
+		])
+		redirect(action: "show", id: tableInstance.id)
+	}
 
-        [tableInstance: tableInstance]
-    }
+	def show_old() {
+		def tableInstance = Table.get(params.id)
+		if (!tableInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'table.label', default: 'Table'),
+				params.id
+			])
+			redirect(action: "list")
+			return
+		}
 
-    def edit() {
-        def tableInstance = Table.get(params.id)
-        if (!tableInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'table.label', default: 'Table'), params.id])
-            redirect(action: "list")
-            return
-        }
+		[tableInstance: tableInstance]
+	}
 
-        [tableInstance: tableInstance]
-    }
+	def edit() {
+		def tableInstance = Table.get(params.id)
+		if (!tableInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'table.label', default: 'Table'),
+				params.id
+			])
+			redirect(action: "list")
+			return
+		}
 
-    def update() {
-        def tableInstance = Table.get(params.id)
-        if (!tableInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'table.label', default: 'Table'), params.id])
-            redirect(action: "list")
-            return
-        }
+		[tableInstance: tableInstance]
+	}
 
-        if (params.version) {
-            def version = params.version.toLong()
-            if (tableInstance.version > version) {
-                tableInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'table.label', default: 'Table')] as Object[],
-                          "Another user has updated this Table while you were editing")
-                render(view: "edit", model: [tableInstance: tableInstance])
-                return
-            }
-        }
+	def update() {
+		def tableInstance = Table.get(params.id)
+		if (!tableInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'table.label', default: 'Table'),
+				params.id
+			])
+			redirect(action: "list")
+			return
+		}
 
-        tableInstance.properties = params
+		if (params.version) {
+			def version = params.version.toLong()
+			if (tableInstance.version > version) {
+				tableInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+						[
+							message(code: 'table.label', default: 'Table')] as Object[],
+						"Another user has updated this Table while you were editing")
+				render(view: "edit", model: [tableInstance: tableInstance])
+				return
+			}
+		}
 
-        if (!tableInstance.save(flush: true)) {
-            render(view: "edit", model: [tableInstance: tableInstance])
-            return
-        }
+		tableInstance.properties = params
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'table.label', default: 'Table'), tableInstance.id])
-        redirect(action: "show", id: tableInstance.id)
-    }
+		if (!tableInstance.save(flush: true)) {
+			render(view: "edit", model: [tableInstance: tableInstance])
+			return
+		}
 
-    def delete() {
-        def tableInstance = Table.get(params.id)
-        if (!tableInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'table.label', default: 'Table'), params.id])
-            redirect(action: "list")
-            return
-        }
+		flash.message = message(code: 'default.updated.message', args: [
+			message(code: 'table.label', default: 'Table'),
+			tableInstance.id
+		])
+		redirect(action: "show", id: tableInstance.id)
+	}
 
-        try {
-            tableInstance.delete(flush: true)
-			flash.message = message(code: 'default.deleted.message', args: [message(code: 'table.label', default: 'Table'), params.id])
-            redirect(action: "list")
-        }
-        catch (DataIntegrityViolationException e) {
-			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'table.label', default: 'Table'), params.id])
-            redirect(action: "show", id: params.id)
-        }
-    }
+	def delete() {
+		def tableInstance = Table.get(params.id)
+		if (!tableInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'table.label', default: 'Table'),
+				params.id
+			])
+			redirect(action: "list")
+			return
+		}
+
+		try {
+			tableInstance.delete(flush: true)
+			flash.message = message(code: 'default.deleted.message', args: [
+				message(code: 'table.label', default: 'Table'),
+				params.id
+			])
+			redirect(action: "list")
+		}
+		catch (DataIntegrityViolationException e) {
+			flash.message = message(code: 'default.not.deleted.message', args: [
+				message(code: 'table.label', default: 'Table'),
+				params.id
+			])
+			redirect(action: "show", id: params.id)
+		}
+	}
 }
