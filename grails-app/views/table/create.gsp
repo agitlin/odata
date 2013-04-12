@@ -9,11 +9,6 @@
 	<title><g:message code="default.create.label" args="[entityName]" /></title>
 	<r:require module="table_editor"/>
 	<jqui:resources/>
-	<style>
-	#sortable {  margin: 0; padding: 0; list-style-type: none; }
-	#sortable li { margin: 5px; padding: 5px; width: 200px; }
-	.deleter {cursor: pointer;*cursor: hand;float:right}
-	</style>
 </head>
 
 <body>

@@ -7,6 +7,9 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'table.label', default: 'Table')}" />
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
+	<r:require module="table_editor"/>
+	<jqui:resources/>
+	
 </head>
 
 <body>

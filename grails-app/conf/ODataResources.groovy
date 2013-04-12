@@ -9,6 +9,7 @@ modules = {
 	
 	'table_editor' {
 		resource url: [ dir: 'js' , file:'odataViewEditor.js' ,plugin:'odata']
+		resource url: [ dir: 'css' , file:'odataViewEditor.css' ,plugin:'odata']
 		
 	}
 }
