@@ -22,7 +22,7 @@ $(document).ready(function() {
 			  });
 			  $('#propertyNames').prepend("<ul id='sortable' >"+items.join('')+"</ul>");
 			  $(".deleter").click(function (e) {
-				  alert (" Deleting "+ $(this).attr("id") + " parent "+ $(this).parent().remove());
+				  $(this).parent().remove();
 			  });
 			  $(function() {
 					$( "#sortable" ).sortable({
