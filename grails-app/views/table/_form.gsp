@@ -4,29 +4,27 @@
 					
 				<div class="controls">
 					<g:if test="${actionName=='create' }">
-					<g:select id="source" name="source.id" from="${org.grails.plugin.odata.Source.list()}" optionKey="id" required="" value="${tableInstance?.source?.id}" class="many-to-one"/>
-					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'source', 'error')}</span>
+						<g:select id="source" name="source.id" from="${org.grails.plugin.odata.Source.list()}" optionKey="id" required="" value="${tableInstance?.source?.id}" class="many-to-one" noSelection="${['null': 'Select One...']}"/>
+						<span class="help-inline">${hasErrors(bean: tableInstance, field: 'source', 'error')}</span>
 					</g:if>
 					<g:else>
-					<label class="value-label control-label "> ${tableInstance?.source.name}</label>
+						<label class="value-label control-label "> ${tableInstance?.source.name}</label>
 					</g:else>
 				</div>
 			</div>
 
 
-			<div class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'entityType', 'error')} ">
+			<div id="entityTypes" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'entityType', 'error')} ">
 				<label for="entityType" class="control-label"><g:message code="table.entityType.label" default="Table" /></label>
 				<div class="controls" >
 					<g:if test="${actionName=='create' }">
-					<select name='entityType' id='entitySelector' class='many-to-one'>
-					<option>Please choose...</option>
-					</select>
-					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'entityType', 'error')}</span>
+						<select name='entityType' id='entitySelector' class='many-to-one'>
+						</select>
+						<span class="help-inline">${hasErrors(bean: tableInstance, field: 'entityType', 'error')}</span>
 					</g:if>
 					<g:else>
-					<label class="value-label control-label "> ${tableInstance?.entityType}</label>
+						<label class="value-label control-label "> ${tableInstance?.entityType}</label>
 					</g:else>
-					
 				</div>
 			</div>
 
