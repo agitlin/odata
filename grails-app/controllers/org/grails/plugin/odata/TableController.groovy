@@ -1,5 +1,7 @@
 package org.grails.plugin.odata
 import grails.converters.JSON
+import static groovyx.net.http.Method.GET
+import groovyx.net.http.HTTPBuilder
 import org.springframework.dao.DataIntegrityViolationException
 
 /**
@@ -7,45 +9,19 @@ import org.springframework.dao.DataIntegrityViolationException
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 class TableController {
-
+	def datatablesService
+	
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	
 	def show() {
 		def table = params.id? Table.get(params.id): Table.first()
 		[headers:table.getColumnsSorted(),table:params.id]
 	}
 
 	def getItems() {
-		def table = Table.get(params.table)
-		def columns = table.getColumnsSorted()
-
-		def dataToRender = [:]
-		dataToRender.sEcho = params.sEcho
-
-		def sortProperty = columns[params.iSortCol_0 as Integer].name
-		def sortDir = params.sSortDir_0?.equalsIgnoreCase('asc') ? 'asc' : 'desc'
-
-		def data = table.getData(params.iDisplayLength, params.iDisplayStart, "${sortProperty} ${sortDir}", getFilterQuery(columns))
-
-		dataToRender.iTotalRecords = data.__count
-		dataToRender.iTotalDisplayRecords = dataToRender.iTotalRecords
-
-		dataToRender.aaData=data.results
-
-		render dataToRender as JSON
+		render datatablesService.getDataForTable(params.table, params) as JSON
 	}
-
-	def getFilterQuery(columns) {
-		StringBuilder filter = new StringBuilder()
-		columns.eachWithIndex { descr, i ->
-			def value = params.get("sSearch_"+i);
-			if (value) {
-				if (filter.length() > 0)
-					filter << " and "
-				filter << "substringof('" << value << "', " << descr.name << ")"
-			}
-		}
-		return filter.toString()
-	}
+	
 	def index() {
 		redirect(action: "list", params: params)
 	}
@@ -62,6 +38,7 @@ class TableController {
 	static humanize(s) {
 		s.replaceAll(/([A-Z][a-z]*)/, '$1 ').trim()
 	}
+	
 	def save() {
 		def tableInstance = new Table(params)
 		tableInstance.name=tableInstance.name?:humanize(tableInstance.entityType)
