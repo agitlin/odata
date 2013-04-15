@@ -32,7 +32,8 @@
 			<div id="columns" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'propertyName', 'error')} ">
 				<label for="propertyName" class="control-label"><g:message code="table.propertyName.label" default="Columns" /></label>
 				<div class="controls" >
-					<span id="propertyNames" />
+					<div id="propertyNames" />
+					
 					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'propertyName', 'error')}</span>
 				</div>
 			</div>

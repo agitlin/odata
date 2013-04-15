@@ -25,21 +25,25 @@ $(document).ready(function() {
 		var eType=$("#entitySelector").val();
 		$.getJSON(propertyURL+sourceId+'?entityType='+eType, function(data) {
 			var items = [];
+			var excludedItems=[];
 				 
 			$.each(data, function( key,val) {
 				items.push('<li class="ui-state-default" ><input type="hidden" name="prop" value="'+val+'"/>'  + val + '<div class="icon-remove deleter" id='+val+'></div></li>');
+				
 			});
 			$('#propertyNames').empty();
-			$('#propertyNames').prepend("<ul id='sortable' >"+items.join('')+"</ul>");
+			$('#propertyNames').prepend("<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' >"+items.join('')+"</ul></div>");
+			$('#propertyNames').prepend("<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'>"+excludedItems.join('')+"</ul></div>");
 			$(".deleter").click(function (e) {
-				$(this).parent().remove();
+				$(this).parent().remove().appendTo("#excluded ul");
+				
 			});
 			$(function() {
-				$( "#sortable" ).sortable({
-					revert: true
-				});
+				$( "ul.props" ).sortable({
+					connectWith:"#sortable ul"
+				}).disableSelection();
 					
-				$( "ul, li" ).disableSelection();
+				//$( "ul, li" ).disableSelection();
 				$("#columns").show()
 			});
 		});
