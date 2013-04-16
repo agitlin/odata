@@ -3,10 +3,17 @@ function registerDeleter() {
 		var rm= $(this).parent().remove();
 		rm.appendTo("#excluded ul");
 		rm.find("div").removeClass("icon-remove");
-		
+		toggleExcluded()
 	});
 }
-
+function toggleExcluded() {
+	 if ($("#excluded ul").children().length>0) {
+		 $("#excluded").show()
+	 }
+	 else {
+		 $("#excluded").hide()
+	 }
+}
 $(document).ready(function() {
 	var sourceId;
 	var entityURL='/omni360/source/getEntityTypes/';
@@ -44,15 +51,19 @@ $(document).ready(function() {
 			$('#propertyNames').empty();
 			$('#propertyNames').prepend("<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' >"+items.join('')+"</ul></div>");
 			$('#propertyNames').prepend("<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'>"+excludedItems.join('')+"</ul></div>");
+			$("#excluded").hide()
 			registerDeleter();
 			$(function() {
 				$( "ul.props" ).sortable({
 					connectWith:"#sortable ul",
-				    stop: function(event, ui) {          
+				    stop: function(event, ui) {
+				    		 toggleExcluded()
 							 if (ui.item.parent().parent().attr("id")=="sortable"){
 					           ui.item.find("div").addClass("icon-remove");
 					           registerDeleter();
 							 }
+							 
+							 
 					}
 				}).disableSelection();
 				
