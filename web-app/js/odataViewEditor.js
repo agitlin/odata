@@ -14,32 +14,52 @@ function toggleExcluded() {
 		 $("#excluded").hide()
 	 }
 }
-$(document).ready(function() {
-	var sourceId;
-	var entityURL='/omni360/source/getEntityTypes/';
-	var propertyURL='/omni360/source/getProperties/';
+function hideColumns() {
+	$('.props').empty();
+	$('#columns').hide();
+}
+
+function hideAll() {
+	$('#entitySelector').empty();
 	$("#entityTypes").hide()
-	$("#columns").hide()
+	hideColumns()
+}
+
+$(document).ready(function() {
 	
-	$("#source").change( function () {
-		sourceId=$("#source").val()
-		$.getJSON(entityURL+sourceId, function(data) {
-			var items = [];
+	var sourceId;
+	var entityURL=root+'source/getEntityTypes/';
+	var propertyURL=root+'source/getProperties/';
+	if (actionName=="create") {
+		hideAll()
+	}
+		$("#source").change( function () {
+			hideAll()
+			sourceId=$("#source").val()
+			if (sourceId =="null") {
+				return
+			} 
+			$.getJSON(entityURL+sourceId, function(data) {
+				var items = [];
 		 
-			items.push('<option>Select one...</option>');
-			$.each(data, function( key,val) {
-				items.push('<option value="' + val + '">' + val + '</option>');
+				items.push('<option value="">Select one...</option>');
+				$.each(data, function( key,val) {
+					items.push('<option value="' + val + '">' + val + '</option>');
+				});
+		 
+				
+				$('#entitySelector').append(items.join(''));
+				$("#entityTypes").show()
 			});
-		 
-			$('#entitySelector').empty();
-			$('#entitySelector').append(items.join(''));
-			$("#entityTypes").show()
 		});
-	});
-	
 	
 	$("#entitySelector").change( function () {
+		hideColumns()
+
 		var eType=$("#entitySelector").val();
+		if (eType =="") {
+			return
+		} 
 		$.getJSON(propertyURL+sourceId+'?entityType='+eType, function(data) {
 			var items = [];
 			var excludedItems=[];
@@ -48,9 +68,8 @@ $(document).ready(function() {
 				items.push('<li class="ui-state-default" ><input type="hidden" name="prop" value="'+val+'"/>'  + val + '<div class="icon-remove deleter" id='+val+'></div></li>');
 				
 			});
-			$('#propertyNames').empty();
-			$('#propertyNames').prepend("<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' >"+items.join('')+"</ul></div>");
-			$('#propertyNames').prepend("<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'>"+excludedItems.join('')+"</ul></div>");
+			$('#sortable ul').prepend(items.join(''));
+			$('#excluded ul').prepend(excludedItems.join(''));
 			$("#excluded").hide()
 			registerDeleter();
 			$(function() {

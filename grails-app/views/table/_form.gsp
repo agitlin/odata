@@ -1,4 +1,9 @@
 <%@ page import="org.grails.plugin.odata.Table" %>
+			<g:javascript>
+				var actionName="${actionName }"
+				var root="${createLink(uri: '/')}"
+				
+			</g:javascript>
 			<div class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'source', 'error')} ">
 				<label for="source" class="control-label"><g:message code="table.source.label" default="Source" /></label>
 					
@@ -27,12 +32,23 @@
 					</g:else>
 				</div>
 			</div>
+			
+			<div class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'name', 'error')} ">
+				<label for="name" class="control-label"><g:message code="table.name.label" default="Name" /></label>
+				<div class="controls">
+					<g:textField name="name" value="${tableInstance?.name}" />
+					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'name', 'error')}</span>
+				</div>
+			</div>
 
 
 			<div id="columns" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'propertyName', 'error')} ">
 				<label for="propertyName" class="control-label"><g:message code="table.propertyName.label" default="Columns" /></label>
 				<div class="controls" >
-					<div id="propertyNames" />
+					<div id="propertyNames" >
+					<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' ></ul></div>
+					<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'></ul></div>
+					</div>
 					
 					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'propertyName', 'error')}</span>
 				</div>
