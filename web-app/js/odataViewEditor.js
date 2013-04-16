@@ -17,6 +17,8 @@ function toggleExcluded() {
 function hideColumns() {
 	$('.props').empty();
 	$('#columns').hide();
+	$('#name').hide();
+	$('#name input').val("");	
 }
 
 function hideAll() {
@@ -60,6 +62,9 @@ $(document).ready(function() {
 		if (eType =="") {
 			return
 		} 
+		$('#name').show();
+		$('#name input').val(eType.replace(/([A-Z])/g, ' $1')+'s');	
+
 		$.getJSON(propertyURL+sourceId+'?entityType='+eType, function(data) {
 			var items = [];
 			var excludedItems=[];
@@ -87,6 +92,7 @@ $(document).ready(function() {
 				}).disableSelection();
 				
 				$("#columns").show()
+
 			});
 		});
 	});

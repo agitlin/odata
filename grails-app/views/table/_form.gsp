@@ -19,7 +19,7 @@
 			</div>
 
 
-			<div id="entityTypes" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'entityType', 'error')} ">
+			<div hidden="true" id="entityTypes" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'entityType', 'error')} ">
 				<label for="entityType" class="control-label"><g:message code="table.entityType.label" default="Table" /></label>
 				<div class="controls" >
 					<g:if test="${actionName=='create' }">
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			
-			<div class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'name', 'error')} ">
+			<div hidden="true" id="name" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'name', 'error')} ">
 				<label for="name" class="control-label"><g:message code="table.name.label" default="Name" /></label>
 				<div class="controls">
 					<g:textField name="name" value="${tableInstance?.name}" />
@@ -42,7 +42,7 @@
 			</div>
 
 
-			<div id="columns" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'propertyName', 'error')} ">
+			<div hidden="true" id="columns" class="control-group fieldcontain ${hasErrors(bean: tableInstance, field: 'propertyName', 'error')} ">
 				<label for="propertyName" class="control-label"><g:message code="table.propertyName.label" default="Columns" /></label>
 				<div class="controls" >
 					<div id="propertyNames" >
