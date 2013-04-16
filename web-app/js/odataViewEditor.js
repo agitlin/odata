@@ -1,3 +1,12 @@
+function registerDeleter() {
+	$(".deleter").click(function (e) {
+		var rm= $(this).parent().remove();
+		rm.appendTo("#excluded ul");
+		rm.find("div").removeClass("icon-remove");
+		
+	});
+}
+
 $(document).ready(function() {
 	var sourceId;
 	var entityURL='/omni360/source/getEntityTypes/';
@@ -21,6 +30,7 @@ $(document).ready(function() {
 		});
 	});
 	
+	
 	$("#entitySelector").change( function () {
 		var eType=$("#entitySelector").val();
 		$.getJSON(propertyURL+sourceId+'?entityType='+eType, function(data) {
@@ -34,16 +44,18 @@ $(document).ready(function() {
 			$('#propertyNames').empty();
 			$('#propertyNames').prepend("<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' >"+items.join('')+"</ul></div>");
 			$('#propertyNames').prepend("<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'>"+excludedItems.join('')+"</ul></div>");
-			$(".deleter").click(function (e) {
-				$(this).parent().remove().appendTo("#excluded ul");
-				
-			});
+			registerDeleter();
 			$(function() {
 				$( "ul.props" ).sortable({
-					connectWith:"#sortable ul"
+					connectWith:"#sortable ul",
+				    stop: function(event, ui) {          
+							 if (ui.item.parent().parent().attr("id")=="sortable"){
+					           ui.item.find("div").addClass("icon-remove");
+					           registerDeleter();
+							 }
+					}
 				}).disableSelection();
-					
-				//$( "ul, li" ).disableSelection();
+				
 				$("#columns").show()
 			});
 		});
