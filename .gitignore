@@ -5,6 +5,7 @@
 *.swp
 *~.nib
 .settings/
+bin/
 target/
 target-eclipse/
 .externalToolBuilders/
