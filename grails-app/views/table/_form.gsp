@@ -46,8 +46,17 @@
 				<label for="propertyName" class="control-label"><g:message code="table.propertyName.label" default="Columns" /></label>
 				<div class="controls" >
 					<div id="propertyNames" >
-					<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' ></ul></div>
-					<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'></ul></div>
+					<div id='sortable'><label for='sortable'>Included:</label><ul  class='props' >
+						<g:each in="${tableInstance?.columns?}" var="c">
+   						 <li class="ui-state-default" ><input type="hidden" name="prop" value="${c.name}"/>${c.name}<div class="icon-remove deleter" id="${c.name}"></div></li>
+						</g:each>
+					</ul></div>
+					<div id='excluded'><label for='excluded'>Excluded:</label><ul class='props'>
+						<g:each in="${excluded?}" var="c">
+   						 <li class="ui-state-default" ><input type="hidden" name="ex" value="${c}"/>${c}<div  class="deleter" id="${c}"></div></li>
+						</g:each>
+					
+					</ul></div>
 					</div>
 					
 					<span class="help-inline">${hasErrors(bean: tableInstance, field: 'propertyName', 'error')}</span>

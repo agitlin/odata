@@ -80,6 +80,9 @@ class TableController {
 
 	def edit() {
 		def tableInstance = Table.get(params.id)
+		def allColumns=tableInstance.source.getEntityProperties(tableInstance.entityType)
+		allColumns.removeAll (tableInstance.columns.collect{it.name})
+		
 		if (!tableInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [
 				message(code: 'table.label', default: 'Table'),
@@ -89,7 +92,7 @@ class TableController {
 			return
 		}
 
-		[tableInstance: tableInstance]
+		[tableInstance: tableInstance, excluded: allColumns]
 	}
 
 	def update() {

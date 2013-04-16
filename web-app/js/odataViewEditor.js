@@ -3,6 +3,7 @@ function registerDeleter() {
 		var rm= $(this).parent().remove();
 		rm.appendTo("#excluded ul");
 		rm.find("div").removeClass("icon-remove");
+		rm.find("input").attr("name","ex")
 		toggleExcluded()
 	});
 }
@@ -27,6 +28,12 @@ function hideAll() {
 	hideColumns()
 }
 
+function showAll() {
+	$("#entityTypes").show()
+	$('#columns').show();
+	$('#name').show();
+}
+
 $(document).ready(function() {
 	
 	var sourceId;
@@ -34,6 +41,9 @@ $(document).ready(function() {
 	var propertyURL=root+'source/getProperties/';
 	if (actionName=="create") {
 		hideAll()
+	}
+	else {
+		showAll()
 	}
 		$("#source").change( function () {
 			hideAll()
@@ -77,23 +87,25 @@ $(document).ready(function() {
 			$('#excluded ul').prepend(excludedItems.join(''));
 			$("#excluded").hide()
 			registerDeleter();
-			$(function() {
-				$( "ul.props" ).sortable({
-					connectWith:"#sortable ul",
-				    stop: function(event, ui) {
-				    		 toggleExcluded()
-							 if (ui.item.parent().parent().attr("id")=="sortable"){
-					           ui.item.find("div").addClass("icon-remove");
-					           registerDeleter();
-							 }
-							 
-							 
-					}
-				}).disableSelection();
-				
-				$("#columns").show()
-
-			});
+			
 		});
+	});
+	$(function() {
+		$( "ul.props" ).sortable({
+			connectWith:"#sortable ul",
+		    stop: function(event, ui) {
+		    		 toggleExcluded()
+					 if (ui.item.parent().parent().attr("id")=="sortable"){
+			           ui.item.find("div").addClass("icon-remove");
+			           registerDeleter();
+			           ui.item.find("input").attr("name","prop")
+					 }
+					 
+					 
+			}
+		}).disableSelection();
+		registerDeleter()
+		$("#columns").show()
+
 	});
 })
