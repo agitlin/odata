@@ -105,7 +105,7 @@ class TableController {
 			redirect(action: "list")
 			return
 		}
-
+		
 		if (params.version) {
 			def version = params.version.toLong()
 			if (tableInstance.version > version) {
@@ -120,10 +120,21 @@ class TableController {
 
 		tableInstance.properties = params
 
+		tableInstance.columns*.delete()
+		tableInstance.columns.clear()
+		tableInstance.save(flush:true)
+		
+		params.prop.eachWithIndex {p, i ->
+			Column col = new Column(index: i, name: p, title: humanize(p))
+			col.save(flush:true)
+			tableInstance.addToColumns(col)
+		}
+
 		if (!tableInstance.save(flush: true)) {
 			render(view: "edit", model: [tableInstance: tableInstance])
 			return
 		}
+
 
 		flash.message = message(code: 'default.updated.message', args: [
 			message(code: 'table.label', default: 'Table'),
